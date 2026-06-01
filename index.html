@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>Пеццирия</title>
+
+<meta name="theme-color" content="#ff5a00">
+
+<link rel="manifest" href="manifest.json">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:#fafafa;
+color:#222;
+overflow-x:hidden;
+}
+
+header{
+height:100vh;
+background:
+linear-gradient(
+135deg,
+#ff5a00,
+#ff8800
+);
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+color:white;
+text-align:center;
+padding:20px;
+position:relative;
+}
+
+.logo{
+width:180px;
+height:180px;
+border-radius:50%;
+object-fit:cover;
+box-shadow:
+0 10px 40px rgba(0,0,0,.3);
+animation:float 3s infinite;
+}
+
+@keyframes float{
+0%{transform:translateY(0)}
+50%{transform:translateY(-15px)}
+100%{transform:translateY(0)}
+}
+
+.title{
+font-size:60px;
+font-weight:bold;
+margin-top:20px;
+}
+
+.subtitle{
+font-size:20px;
+margin-top:10px;
+opacity:.9;
+}
+
+.install-btn{
+margin-top:30px;
+padding:15px 30px;
+border:none;
+border-radius:15px;
+background:white;
+color:#ff5a00;
+font-size:18px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.menu-section{
+padding:50px 20px;
+max-width:1400px;
+margin:auto;
+}
+
+.search{
+width:100%;
+padding:15px;
+border-radius:15px;
+border:1px solid #ddd;
+margin-bottom:20px;
+font-size:16px;
+}
+
+.pizza-grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fill,minmax(280px,1fr));
+gap:20px;
+}
+
+.pizza-card{
+background:white;
+border-radius:20px;
+overflow:hidden;
+box-shadow:
+0 10px 25px rgba(0,0,0,.1);
+transition:.3s;
+}
+
+.pizza-card:hover{
+transform:
+translateY(-8px)
+scale(1.02);
+}
+
+.pizza-card img{
+width:100%;
+height:220px;
+object-fit:cover;
+}
+
+.pizza-info{
+padding:15px;
+}
+
+.price{
+color:#ff5a00;
+font-size:24px;
+font-weight:bold;
+margin-top:10px;
+}
+
+.add-btn{
+width:100%;
+margin-top:10px;
+padding:12px;
+border:none;
+background:#ff5a00;
+color:white;
+border-radius:12px;
+cursor:pointer;
+}
+
+.cart{
+position:fixed;
+right:20px;
+bottom:100px;
+width:320px;
+max-height:450px;
+overflow:auto;
+background:white;
+border-radius:20px;
+padding:15px;
+box-shadow:
+0 10px 40px rgba(0,0,0,.2);
+z-index:1000;
+}
+
+.bottom-nav{
+position:fixed;
+bottom:0;
+left:0;
+right:0;
+background:white;
+display:flex;
+justify-content:space-around;
+padding:12px;
+box-shadow:
+0 -5px 20px rgba(0,0,0,.15);
+z-index:999;
+}
+
+.bottom-nav a{
+text-decoration:none;
+color:#ff5a00;
+font-size:13px;
+text-align:center;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header id="home">
+
+<img
+class="logo"
+src="1000020479.png"
+alt="Пеццирия">
+
+<h1 class="title">
+Пеццирия
+</h1>
+
+<p class="subtitle">
+Горячая пицца с доставкой
+</p>
+
+<button class="install-btn">
+📲 Установить приложение
+</button>
+
+</header>
+<section class="menu-section" id="menu">
+
+<h2>🍕 Меню</h2>
+
+<input
+class="search"
+id="search"
+placeholder="Поиск пиццы...">
+
+<div class="pizza-grid" id="pizzaGrid"></div>
+
+</section>
+
+<section class="menu-section" id="sales">
+
+<h2>🔥 Акции</h2>
+
+<div class="pizza-card">
+<div class="pizza-info">
+<h3>2 пиццы = скидка 20%</h3>
+<p>Акция действует каждый день.</p>
+</div>
+</div>
+
+</section>
+
+<section class="menu-section" id="delivery">
+
+<h2>🚚 Оформление заказа</h2>
+
+<input id="name" placeholder="Ваше имя" class="search">
+<input id="phone" placeholder="Телефон" class="search">
+<input id="address" placeholder="Адрес доставки" class="search">
+
+<select id="payment" class="search">
+<option>💳 Банковская карта</option>
+<option>📱 СБП</option>
+<option>💵 Наличные</option>
+<option>🍏 Apple Pay</option>
+<option>🤖 Google Pay</option>
+</select>
+
+<button class="add-btn" onclick="createOrder()">
+Оформить заказ
+</button>
+
+<div id="orderStatus"></div>
+
+</section>
+
+<section class="menu-section" id="reviews">
+
+<h2>⭐ Отзывы</h2>
+
+<div class="pizza-card">
+<div class="pizza-info">
+★★★★★ Очень вкусно!
+</div>
+</div>
+
+<div class="pizza-card">
+<div class="pizza-info">
+★★★★★ Быстрая доставка!
+</div>
+</div>
+
+</section>
+
+<section class="menu-section" id="contacts">
+
+<h2>📞 Контакты</h2>
+
+<p>Телефон: +7 (999) 123-45-67</p>
+<p>Email: info@pecciriya.ru</p>
+
+</section>
+
+<nav class="bottom-nav">
+
+<a href="#home">🏠<br>Главная</a>
+
+<a href="#menu">🍕<br>Меню</a>
+
+<a href="#sales">🔥<br>Акции</a>
+
+<a href="#delivery">🚚<br>Доставка</a>
+
+<a href="#reviews">⭐<br>Отзывы</a>
+
+<a href="#contacts">📞<br>Контакты</a>
+
+</nav>
+
+<div class="cart">
+
+<h3>🛒 Корзина</h3>
+
+<div id="cartItems"></div>
+
+<hr>
+
+<h2 id="totalPrice">0 ₽</h2>
+
+</div>
