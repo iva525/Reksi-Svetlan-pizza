@@ -1,321 +1,440 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-
-<title>Пеццирия</title>
-
-<meta name="theme-color" content="#ff5a00">
-
-<link rel="manifest" href="manifest.json">
-
-<style>
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-html{
-scroll-behavior:smooth;
-}
-
-body{
-background:#fafafa;
-color:#222;
-overflow-x:hidden;
-}
-
-header{
-height:100vh;
-background:
-linear-gradient(
-135deg,
-#ff5a00,
-#ff8800
-);
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-color:white;
-text-align:center;
-padding:20px;
-position:relative;
-}
-
-.logo{
-width:180px;
-height:180px;
-border-radius:50%;
-object-fit:cover;
-box-shadow:
-0 10px 40px rgba(0,0,0,.3);
-animation:float 3s infinite;
-}
-
-@keyframes float{
-0%{transform:translateY(0)}
-50%{transform:translateY(-15px)}
-100%{transform:translateY(0)}
-}
-
-.title{
-font-size:60px;
-font-weight:bold;
-margin-top:20px;
-}
-
-.subtitle{
-font-size:20px;
-margin-top:10px;
-opacity:.9;
-}
-
-.install-btn{
-margin-top:30px;
-padding:15px 30px;
-border:none;
-border-radius:15px;
-background:white;
-color:#ff5a00;
-font-size:18px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.menu-section{
-padding:50px 20px;
-max-width:1400px;
-margin:auto;
-}
-
-.search{
-width:100%;
-padding:15px;
-border-radius:15px;
-border:1px solid #ddd;
-margin-bottom:20px;
-font-size:16px;
-}
-
-.pizza-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fill,minmax(280px,1fr));
-gap:20px;
-}
-
-.pizza-card{
-background:white;
-border-radius:20px;
-overflow:hidden;
-box-shadow:
-0 10px 25px rgba(0,0,0,.1);
-transition:.3s;
-}
-
-.pizza-card:hover{
-transform:
-translateY(-8px)
-scale(1.02);
-}
-
-.pizza-card img{
-width:100%;
-height:220px;
-object-fit:cover;
-}
-
-.pizza-info{
-padding:15px;
-}
-
-.price{
-color:#ff5a00;
-font-size:24px;
-font-weight:bold;
-margin-top:10px;
-}
-
-.add-btn{
-width:100%;
-margin-top:10px;
-padding:12px;
-border:none;
-background:#ff5a00;
-color:white;
-border-radius:12px;
-cursor:pointer;
-}
-
-.cart{
-position:fixed;
-right:20px;
-bottom:100px;
-width:320px;
-max-height:450px;
-overflow:auto;
-background:white;
-border-radius:20px;
-padding:15px;
-box-shadow:
-0 10px 40px rgba(0,0,0,.2);
-z-index:1000;
-}
-
-.bottom-nav{
-position:fixed;
-bottom:0;
-left:0;
-right:0;
-background:white;
-display:flex;
-justify-content:space-around;
-padding:12px;
-box-shadow:
-0 -5px 20px rgba(0,0,0,.15);
-z-index:999;
-}
-
-.bottom-nav a{
-text-decoration:none;
-color:#ff5a00;
-font-size:13px;
-text-align:center;
-}
-
-</style>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#ff5a1f" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Пеццирия" />
+  <link rel="manifest" href="manifest.json" />
+  <title>Пеццирия — доставка пиццы</title>
+  <style>
+    :root{
+      --bg:#fff8f4;
+      --card:#ffffff;
+      --text:#1f1f1f;
+      --muted:#6d6d6d;
+      --primary:#ff5a1f;
+      --primary2:#ff8a00;
+      --line:rgba(0,0,0,.08);
+      --shadow:0 18px 50px rgba(73,20,0,.14);
+      --shadow2:0 10px 26px rgba(73,20,0,.12);
+      --radius:24px;
+      --glass:rgba(255,255,255,.72);
+    }
+    [data-theme="dark"]{
+      --bg:#121212;
+      --card:#1b1b1b;
+      --text:#f5f5f5;
+      --muted:#b0b0b0;
+      --line:rgba(255,255,255,.08);
+      --shadow:0 18px 50px rgba(0,0,0,.45);
+      --shadow2:0 10px 26px rgba(0,0,0,.35);
+      --glass:rgba(20,20,20,.74);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:radial-gradient(circle at top,#fff2e8,transparent 36%),var(--bg);
+      color:var(--text);
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background:linear-gradient(180deg,rgba(255,90,31,.07),transparent 22%);
+      pointer-events:none;
+    }
+    a{color:inherit;text-decoration:none}
+    button,input,textarea,select{font:inherit}
+    .wrap{max-width:1320px;margin:0 auto;padding:0 18px 92px}
+    .topbar{
+      position:sticky;top:0;z-index:60;
+      backdrop-filter:blur(16px);
+      background:var(--glass);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;
+      max-width:1320px;margin:0 auto;padding:14px 18px;
+    }
+    .brand{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.2px}
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      display:grid;place-items:center;color:#fff;box-shadow:var(--shadow2)
+    }
+    .brand small{display:block;color:var(--muted);font-weight:600;margin-top:2px}
+    .actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .btn{
+      border:0;cursor:pointer;border-radius:999px;padding:13px 18px;
+      font-weight:800;color:#fff;
+      background:linear-gradient(135deg,var(--primary),var(--primary2));
+      box-shadow:var(--shadow2);
+      transition:.25s transform,.25s box-shadow,.25s filter;
+    }
+    .btn:hover{transform:translateY(-2px) scale(1.01);filter:saturate(1.05)}
+    .btn.secondary{
+      background:var(--card);color:var(--text);border:1px solid var(--line)
+    }
+    .hero{padding:26px 0 12px}
+    .hero-grid{
+      display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:stretch;
+    }
+    .hero-card{
+      border-radius:32px;padding:34px;
+      background:linear-gradient(135deg,rgba(255,90,31,.98),rgba(255,138,0,.92));
+      color:#fff;box-shadow:var(--shadow);position:relative;overflow:hidden;
+    }
+    .hero-card::after{
+      content:"";position:absolute;inset:-20%;
+      background:radial-gradient(circle at 20% 20%,rgba(255,255,255,.18),transparent 22%),
+                 radial-gradient(circle at 80% 30%,rgba(255,255,255,.12),transparent 16%);
+      transform:rotate(8deg);
+    }
+    .hero-card>*{position:relative;z-index:1}
+    .eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      background:rgba(255,255,255,.16);padding:8px 14px;border-radius:999px;font-weight:700
+    }
+    .hero h1{
+      font-size:clamp(42px,7vw,86px);line-height:.94;margin:18px 0 14px
+    }
+    .hero p{max-width:620px;font-size:clamp(16px,2vw,20px);line-height:1.6;opacity:.96}
+    .hero-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .hero-points{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+    .pill{
+      background:rgba(255,255,255,.14);
+      border:1px solid rgba(255,255,255,.18);
+      padding:12px 14px;border-radius:18px;font-weight:700
+    }
+    .banner{
+      border-radius:32px;overflow:hidden;min-height:100%;
+      box-shadow:var(--shadow);background:var(--card);border:1px solid var(--line);
+      position:relative;
+    }
+    .banner-img{
+      height:100%;min-height:360px;
+      background:linear-gradient(180deg,rgba(0,0,0,.06),rgba(0,0,0,.25)),
+                 url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1200&q=80') center/cover;
+    }
+    .banner-badge{
+      position:absolute;left:18px;bottom:18px;
+      background:rgba(0,0,0,.42);color:#fff;padding:12px 14px;
+      border-radius:16px;backdrop-filter:blur(8px)
+    }
+    .section{margin-top:28px}
+    .section-head{
+      display:flex;justify-content:space-between;align-items:end;gap:14px;margin-bottom:14px
+    }
+    .section-head h2{font-size:clamp(26px,3vw,38px);margin:0}
+    .section-head p{margin:0;color:var(--muted)}
+    .toolbar{
+      display:grid;grid-template-columns:1.3fr .7fr .7fr;gap:12px;margin-bottom:16px
+    }
+    .input,.select,.textarea{
+      width:100%;border:1px solid var(--line);background:var(--card);color:var(--text);
+      border-radius:18px;padding:14px 16px;outline:none;box-shadow:0 1px 0 rgba(255,255,255,.03) inset
+    }
+    .input:focus,.select:focus,.textarea:focus{
+      border-color:rgba(255,90,31,.45);box-shadow:0 0 0 4px rgba(255,90,31,.12)
+    }
+    .chips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px}
+    .chip{
+      padding:11px 14px;border-radius:999px;border:1px solid var(--line);
+      background:var(--card);cursor:pointer;font-weight:700;transition:.2s
+    }
+    .chip.active,.chip:hover{
+      background:linear-gradient(135deg,var(--primary),var(--primary2));color:#fff;border-color:transparent;transform:translateY(-1px)
+    }
+    .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
+    .pizza-card,.panel{
+      background:var(--card);border:1px solid var(--line);border-radius:26px;overflow:hidden;
+      box-shadow:var(--shadow2);transition:.25s transform,.25s box-shadow,.25s border-color
+    }
+    .pizza-card:hover,.panel:hover{
+      transform:translateY(-6px);box-shadow:var(--shadow);border-color:rgba(255,90,31,.28)
+    }
+    .pizza-img{
+      aspect-ratio:1.1;border-bottom:1px solid var(--line);background:#eee center/cover no-repeat
+    }
+    .pizza-body{padding:15px}
+    .pizza-top{display:flex;align-items:start;justify-content:space-between;gap:10px}
+    .pizza-body h3{margin:0 0 8px;font-size:18px}
+    .pizza-body p{margin:0 0 12px;color:var(--muted);line-height:1.45;font-size:14px}
+    .meta{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+    .tag{
+      font-size:12px;padding:6px 10px;border-radius:999px;background:rgba(255,90,31,.08);
+      color:var(--primary);font-weight:800
+    }
+    .price-row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+    .price{font-size:20px;font-weight:900}
+    .mini-btn{
+      border:0;background:linear-gradient(135deg,var(--primary),var(--primary2));
+      color:#fff;padding:11px 14px;border-radius:14px;cursor:pointer;font-weight:800;transition:.2s
+    }
+    .mini-btn:hover{transform:translateY(-1px)}
+    .cols-2{display:grid;grid-template-columns:1fr .9fr;gap:16px}
+    .panel{padding:18px}
+    .cart-item{
+      display:grid;grid-template-columns:72px 1fr auto;gap:12px;align-items:center;
+      padding:12px 0;border-bottom:1px solid var(--line)
+    }
+    .cart-item:last-child{border-bottom:0}
+    .thumb{width:72px;height:72px;border-radius:18px;background:#ddd center/cover no-repeat}
+    .cart-title{font-weight:800}
+    .muted{color:var(--muted)}
+    .qty{display:flex;align-items:center;gap:8px}
+    .qty button{
+      width:34px;height:34px;border-radius:10px;border:1px solid var(--line);
+      background:var(--card);color:var(--text);cursor:pointer
+    }
+    .order-summary{display:grid;gap:10px}
+    .sum-row{display:flex;justify-content:space-between;gap:10px}
+    .total{font-size:28px;font-weight:900}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .review{padding:18px}
+    .stars{color:#ffb400;font-size:18px;letter-spacing:1px}
+    .bottom-nav{
+      position:fixed;left:50%;transform:translateX(-50%);bottom:10px;z-index:80;
+      width:min(980px,calc(100% - 18px));background:rgba(20,20,20,.76);
+      backdrop-filter:blur(16px);color:#fff;border-radius:22px;padding:10px;
+      border:1px solid rgba(255,255,255,.08);display:grid;grid-template-columns:repeat(8,1fr);gap:6px;box-shadow:0 18px 50px rgba(0,0,0,.35)
+    }
+    .nav-item{
+      display:grid;gap:4px;place-items:center;padding:10px 4px;border-radius:16px;font-size:12px;font-weight:800;opacity:.9
+    }
+    .nav-item:hover{background:rgba(255,255,255,.09);opacity:1}
+    .nav-ico{font-size:18px}
+    .footer{margin-top:30px;padding:24px 0 88px;color:var(--muted);text-align:center}
+    .modal{
+      position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;
+      padding:18px;z-index:120
+    }
+    .modal.open{display:flex}
+    .modal-card{
+      width:min(920px,100%);background:var(--card);border:1px solid var(--line);
+      border-radius:28px;padding:18px;box-shadow:var(--shadow);max-height:90vh;overflow:auto
+    }
+    .modal-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .icon-x{border:0;background:transparent;color:var(--text);font-size:28px;cursor:pointer}
+    .order-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+    .toast{
+      position:fixed;right:16px;top:16px;z-index:150;background:var(--card);color:var(--text);
+      border:1px solid var(--line);border-radius:16px;padding:14px 16px;box-shadow:var(--shadow);
+      transform:translateY(-20px);opacity:0;pointer-events:none;transition:.3s
+    }
+    .toast.show{transform:none;opacity:1}
+    .admin-fab{position:fixed;right:16px;bottom:96px;z-index:81}
+    .admin-panel{
+      display:none;position:fixed;inset:auto 16px 92px auto;width:min(460px,calc(100% - 32px));
+      background:var(--card);border:1px solid var(--line);border-radius:26px;padding:16px;box-shadow:var(--shadow);z-index:130
+    }
+    .admin-panel.open{display:block}
+    .install-banner{
+      display:none;margin-top:16px;padding:14px 16px;border-radius:20px;
+      background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.2)
+    }
+    @media (max-width:1200px){
+      .grid{grid-template-columns:repeat(3,1fr)}
+      .grid-3{grid-template-columns:1fr}
+      .cols-2,.hero-grid,.toolbar,.order-grid{grid-template-columns:1fr}
+      .bottom-nav{grid-template-columns:repeat(4,1fr)}
+      .banner-img{min-height:300px}
+    }
+    @media (max-width:760px){
+      .wrap{padding-bottom:118px}
+      .grid{grid-template-columns:repeat(2,1fr)}
+      .topbar-inner{padding:12px 14px}
+      .brand small{display:none}
+      .actions{gap:8px}
+      .btn{padding:12px 14px}
+      .bottom-nav{width:calc(100% - 10px);bottom:5px;grid-template-columns:repeat(4,1fr)}
+      .nav-item{font-size:11px}
+      .nav-ico{font-size:16px}
+      .hero-card{padding:24px}
+      .pizza-body h3{font-size:16px}
+    }
+    @media (max-width:480px){
+      .grid{grid-template-columns:1fr}
+      .bottom-nav{grid-template-columns:repeat(2,1fr)}
+    }
+    .reveal{animation:fadeUp .55s ease both}
+    @keyframes fadeUp{
+      from{opacity:0;transform:translateY(14px)}
+      to{opacity:1;transform:none}
+    }
+  </style>
 </head>
+<body data-theme="light">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo">🍕</div>
+        <div>Пеццирия<small>Сеть пиццерий нового поколения</small></div>
+      </div>
+      <div class="actions">
+        <button class="btn secondary" id="themeBtn">🌗 Тема</button>
+        <button class="btn secondary" id="installBtn" style="display:none">⬇ Установить приложение</button>
+        <button class="btn" id="notifyBtn">🔔 Уведомления</button>
+      </div>
+    </div>
+  </div>
 
-<body>
+  <main class="wrap">
+    <section class="hero" id="home">
+      <div class="hero-grid">
+        <div class="hero-card reveal">
+          <div class="eyebrow">🔥 Горячая доставка за 30–45 минут</div>
+          <h1>Пеццирия</h1>
+          <p>Современный ресторан в формате приложения: яркое меню, умная корзина, акции, отзывы и оформление заказа в несколько касаний.</p>
+          <div class="hero-cta">
+            <a class="btn" href="#menu">Смотреть меню</a>
+            <a class="btn secondary" href="#order">Оформить заказ</a>
+          </div>
+          <div class="hero-points">
+            <div class="pill">🍅 Свежие ингредиенты</div>
+            <div class="pill">🧀 50+ пицц</div>
+            <div class="pill">🚚 Быстрая доставка</div>
+          </div>
+          <div class="install-banner" id="installHint">Сайт готов к установке как приложение.</div>
+        </div>
+        <div class="banner reveal">
+          <div class="banner-img"></div>
+          <div class="banner-badge">Аппетитная пицца дня · до -30%</div>
+        </div>
+      </div>
+    </section>
 
-<header id="home">
+    <section class="section" id="menu">
+      <div class="section-head">
+        <div><h2>Меню</h2><p>Более 50 позиций в разных категориях.</p></div>
+      </div>
+      <div class="toolbar">
+        <input class="input" id="search" placeholder="Поиск по меню: пепперони, сырная, BBQ..." />
+        <select class="select" id="category"><option value="all">Все категории</option></select>
+        <select class="select" id="sort">
+          <option value="popular">Сначала популярные</option>
+          <option value="priceAsc">Цена: по возрастанию</option>
+          <option value="priceDesc">Цена: по убыванию</option>
+        </select>
+      </div>
+      <div class="chips" id="chips"></div>
+      <div class="grid" id="menuGrid"></div>
+    </section>
 
-<img
-class="logo"
-src="1000020479.png"
-alt="Пеццирия">
+    <section class="section" id="promos">
+      <div class="section-head"><div><h2>Акции</h2><p>Пицца, комбо и выгодные наборы.</p></div></div>
+      <div class="grid-3" id="promoGrid"></div>
+    </section>
 
-<h1 class="title">
-Пеццирия
-</h1>
+    <section class="section" id="reviews">
+      <div class="section-head"><div><h2>Отзывы</h2><p>Настоящий формат отзывов клиентов.</p></div></div>
+      <div class="grid-3" id="reviewGrid"></div>
+    </section>
 
-<p class="subtitle">
-Горячая пицца с доставкой
-</p>
+    <section class="section" id="about">
+      <div class="section-head"><div><h2>О нас</h2><p>Профессиональный бренд доставки.</p></div></div>
+      <div class="cols-2">
+        <div class="panel">
+          <h3>Пеццирия</h3>
+          <p class="muted">Мы создаём пиццу ресторанного уровня с акцентом на скорость, стабильное качество и удобный digital-опыт.</p>
+          <ul>
+            <li>Свежая выпечка каждый день.</li>
+            <li>Понятное мобильное оформление заказа.</li>
+            <li>Удобные акции и персональные предложения.</li>
+          </ul>
+        </div>
+        <div class="panel" id="delivery">
+          <h3>Доставка</h3>
+          <p class="muted">Доставка от 30 минут, самовывоз и вечерние слоты. Оплата наличными, картой и онлайн.</p>
+          <div class="sum-row"><span>Время</span><strong>30–45 мин</strong></div>
+          <div class="sum-row"><span>Минимальный заказ</span><strong>от 699 ₽</strong></div>
+          <div class="sum-row"><span>Зона</span><strong>город и пригороды</strong></div>
+        </div>
+      </div>
+    </section>
 
-<button class="install-btn">
-📲 Установить приложение
-</button>
+    <section class="section" id="contacts">
+      <div class="section-head"><div><h2>Контакты</h2><p>Связь с рестораном и поддержкой.</p></div></div>
+      <div class="cols-2">
+        <div class="panel">
+          <p><strong>Телефон:</strong> +7 (900) 123-45-67</p>
+          <p><strong>Почта:</strong> hello@pecciria.ru</p>
+          <p><strong>Адрес:</strong> Москва, Пицца-авеню, 7</p>
+        </div>
+        <div class="panel">
+          <p><strong>Instagram / Telegram / VK:</strong> @pecciria</p>
+          <p class="muted">Нажмите кнопку уведомлений, чтобы включить обновления об акциях и статусе заказа.</p>
+        </div>
+      </div>
+    </section>
+  </main>
 
-</header>
-<section class="menu-section" id="menu">
+  <div class="bottom-nav">
+    <a class="nav-item" href="#home"><div class="nav-ico">🏠</div>Главная</a>
+    <a class="nav-item" href="#menu"><div class="nav-ico">🍕</div>Меню</a>
+    <a class="nav-item" href="#promos"><div class="nav-ico">🔥</div>Акции</a>
+    <a class="nav-item" href="#delivery"><div class="nav-ico">🚚</div>Доставка</a>
+    <a class="nav-item" href="#reviews"><div class="nav-ico">⭐</div>Отзывы</a>
+    <a class="nav-item" href="#contacts"><div class="nav-ico">📞</div>Контакты</a>
+    <a class="nav-item" href="#about"><div class="nav-ico">🏢</div>О нас</a>
+    <a class="nav-item" href="#faq"><div class="nav-ico">❓</div>FAQ</a>
+  </div>
 
-<h2>🍕 Меню</h2>
+  <button class="btn admin-fab" id="cartBtn">🛒 Корзина <span id="cartCount">0</span></button>
+  <button class="btn secondary admin-fab" style="right:16px;bottom:154px" id="adminBtn">⚙️ Админка</button>
 
-<input
-class="search"
-id="search"
-placeholder="Поиск пиццы...">
+  <div class="admin-panel" id="adminPanel">
+    <div class="modal-head"><strong>Панель уведомлений</strong><button class="icon-x" id="closeAdmin">×</button></div>
+    <p class="muted">Отправка пробных push-уведомлений всем пользователям через приложение.</p>
+    <input class="input" id="notifTitle" placeholder="Заголовок уведомления" value="Новая акция" />
+    <textarea class="textarea" id="notifBody" rows="3" placeholder="Текст уведомления">Скидка 20% на все пепперони сегодня до 22:00.</textarea>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+      <button class="btn" id="sendNotif">Отправить уведомление</button>
+      <button class="btn secondary" id="demoOrderNotif">Статус заказа</button>
+    </div>
+  </div>
 
-<div class="pizza-grid" id="pizzaGrid"></div>
+  <div class="modal" id="cartModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong>Корзина и оформление</strong>
+        <button class="icon-x" data-close="cartModal">×</button>
+      </div>
+      <div class="cols-2" style="margin-top:10px">
+        <div class="panel">
+          <div id="cartList"></div>
+          <div class="order-summary">
+            <div class="sum-row"><span>Подытог</span><strong id="subTotal">0 ₽</strong></div>
+            <div class="sum-row"><span>Доставка</span><strong id="deliveryFee">149 ₽</strong></div>
+            <div class="sum-row total"><span>Итого</span><span id="grandTotal">0 ₽</span></div>
+          </div>
+        </div>
+        <div class="panel" id="order">
+          <h3>Оформление заказа</h3>
+          <div class="order-grid">
+            <input class="input" id="name" placeholder="Имя" />
+            <input class="input" id="phone" placeholder="Телефон" />
+            <input class="input" id="address" placeholder="Адрес доставки" />
+            <input class="input" id="comment" placeholder="Комментарий к заказу" />
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+            <button class="btn" id="checkoutBtn">Оформить заказ</button>
+            <button class="btn secondary" id="clearCart">Очистить корзину</button>
+          </div>
+          <p class="muted" style="margin-top:12px">После оформления будет показан статус и отправлено уведомление.</p>
+        </div>
+      </div>
+    </div>
+  </div>
 
-</section>
+  <div class="toast" id="toast"></div>
 
-<section class="menu-section" id="sales">
-
-<h2>🔥 Акции</h2>
-
-<div class="pizza-card">
-<div class="pizza-info">
-<h3>2 пиццы = скидка 20%</h3>
-<p>Акция действует каждый день.</p>
-</div>
-</div>
-
-</section>
-
-<section class="menu-section" id="delivery">
-
-<h2>🚚 Оформление заказа</h2>
-
-<input id="name" placeholder="Ваше имя" class="search">
-<input id="phone" placeholder="Телефон" class="search">
-<input id="address" placeholder="Адрес доставки" class="search">
-
-<select id="payment" class="search">
-<option>💳 Банковская карта</option>
-<option>📱 СБП</option>
-<option>💵 Наличные</option>
-<option>🍏 Apple Pay</option>
-<option>🤖 Google Pay</option>
-</select>
-
-<button class="add-btn" onclick="createOrder()">
-Оформить заказ
-</button>
-
-<div id="orderStatus"></div>
-
-</section>
-
-<section class="menu-section" id="reviews">
-
-<h2>⭐ Отзывы</h2>
-
-<div class="pizza-card">
-<div class="pizza-info">
-★★★★★ Очень вкусно!
-</div>
-</div>
-
-<div class="pizza-card">
-<div class="pizza-info">
-★★★★★ Быстрая доставка!
-</div>
-</div>
-
-</section>
-
-<section class="menu-section" id="contacts">
-
-<h2>📞 Контакты</h2>
-
-<p>Телефон: +7 (999) 123-45-67</p>
-<p>Email: info@pecciriya.ru</p>
-
-</section>
-
-<nav class="bottom-nav">
-
-<a href="#home">🏠<br>Главная</a>
-
-<a href="#menu">🍕<br>Меню</a>
-
-<a href="#sales">🔥<br>Акции</a>
-
-<a href="#delivery">🚚<br>Доставка</a>
-
-<a href="#reviews">⭐<br>Отзывы</a>
-
-<a href="#contacts">📞<br>Контакты</a>
-
-</nav>
-
-<div class="cart">
-
-<h3>🛒 Корзина</h3>
-
-<div id="cartItems"></div>
-
-<hr>
-
-<h2 id="totalPrice">0 ₽</h2>
-
-</div>
+  <script>
+    const pizzas = [];
+    const cats = ['Мясные','Сырные','Острые','Фирменные','Вегетарианские','Морепродукты','BBQ','Классические'];
+    const names = ['Пепперони','Маргарита','Четыре сыра','Барбекю','Мясная','Диабло','Грибная','Сицилийская','Пармезан','Карбонара','Чикен','Океан','Трюфельная','Фермерская','Чили','Капричоза','Неаполитана','Салями','Гавайская','Верона','Римская','Песто','Мексика','Прошутто','Кватро','Фокачча','Луиджи','Сальса','Классик','Огонь','Гурме','Милан','Суприм','Солнечная','Лесная
